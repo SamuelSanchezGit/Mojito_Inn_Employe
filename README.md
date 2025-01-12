@@ -17,3 +17,5 @@ Calcul automatique du prix total de la commande.
 
 Design épuré avec une barre latérale qui peut être ouverte/fermée à l'aide d'un triangle interactif.
 Prise en charge du mode sombre pour une meilleure expérience utilisateur.
+
+https://mojito-inn.netlify.app/
