@@ -12,7 +12,15 @@ const Calculator = ({ cart, onUpdateQuantity, onRemoveItem }) => {
 
   const showTooltip = (e, name) => {
     const { clientX, clientY } = e;
-    setTooltip({ visible: true, text: name, x: clientX, y: clientY });
+    const tooltipWidth = 150; // Largeur estimée du tooltip
+    const screenWidth = window.innerWidth;
+
+    let x = clientX + 10;
+    if (x + tooltipWidth > screenWidth) {
+      x = screenWidth - tooltipWidth - 10; // Ajuste pour ne pas dépasser à droite
+    }
+
+    setTooltip({ visible: true, text: name, x, y: clientY + 10 });
 
     // Cache le tooltip après 2 secondes
     setTimeout(() => {
@@ -25,10 +33,12 @@ const Calculator = ({ cart, onUpdateQuantity, onRemoveItem }) => {
       {/* Tooltip */}
       {tooltip.visible && (
         <div
-          className="absolute bg-gray-800 text-white text-sm px-3 py-1 rounded shadow-lg z-40" // z-index ajusté à 40
+          className="absolute bg-gray-800 text-white text-sm px-3 py-1 rounded shadow-lg z-50"
           style={{
-            top: tooltip.y + 10,
-            left: tooltip.x + 10,
+            top: tooltip.y, // Position légèrement en dessous
+            left: tooltip.x, // Position ajustée dynamiquement
+            maxWidth: "150px", // Largeur max
+            wordWrap: "break-word", // Pour éviter les débordements
           }}
         >
           {tooltip.text}
@@ -40,7 +50,6 @@ const Calculator = ({ cart, onUpdateQuantity, onRemoveItem }) => {
           <li
             key={item.id}
             className="flex flex-wrap items-center justify-between gap-4 p-4 border rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
-            onClick={(e) => showTooltip(e, item.name)}
           >
             {/* Quantité */}
             <div className="flex items-center">
@@ -57,8 +66,9 @@ const Calculator = ({ cart, onUpdateQuantity, onRemoveItem }) => {
 
             {/* Nom complet */}
             <span
-              className="text-lg font-medium flex-1 truncate text-center"
-              title={item.name}
+              className="text-lg font-medium flex-1 truncate text-center cursor-pointer"
+              title={item.name} // Ajoute une infobulle native
+              onClick={(e) => showTooltip(e, item.name)} // Tooltip uniquement sur le clic du nom
             >
               {item.name}
             </span>
