@@ -7,3 +7,14 @@ body.dark {
   background-color: #111827; /* Tailwind's dark gray */
   color: #f9fafb; /* Tailwind's light gray */
 }
+
+/* Gestion des débordements pour les noms dans les commandes */
+.commande-item-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.commande-item-name:hover {
+  cursor: pointer;
+}

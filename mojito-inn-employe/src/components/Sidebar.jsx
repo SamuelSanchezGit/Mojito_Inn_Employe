@@ -10,10 +10,9 @@ import { tabacDiscount } from "../data/tabacDiscount";
 
 const Sidebar = ({ onAdd }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDiscount, setIsDiscount] = useState(false); // Basculer entre les cartes
-  const [category, setCategory] = useState("drinks"); // Catégorie par défaut
+  const [isDiscount, setIsDiscount] = useState(false);
+  const [category, setCategory] = useState("drinks");
 
-  // Charger les données en fonction de "isDiscount"
   const data = isDiscount
     ? {
         drinks: drinksDiscount,
@@ -24,7 +23,7 @@ const Sidebar = ({ onAdd }) => {
     : { drinks, nourriture, bestbudzz, tabac };
 
   return (
-    <div className="relative">
+    <div className="relative z-50"> {/* Sidebar toujours au-dessus */}
       {/* Triangle pour ouvrir/fermer */}
       <div
         onClick={() => setIsOpen(!isOpen)}
