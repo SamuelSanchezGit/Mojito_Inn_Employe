@@ -8,7 +8,6 @@ const Calculator = ({ cart, onUpdateQuantity, onRemoveItem }) => {
   
     return (
       <div>
-        <h2 className="text-xl font-bold mb-6">Commande :</h2>
         <ul>
           {cart.map((item) => (
             <li
