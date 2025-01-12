@@ -2,14 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Optional customization */
 body.dark {
-  background-color: #1a202c; /* Couleur sombre */
-  color: #f7fafc; /* Texte clair */
+  background-color: #111827; /* Tailwind's dark gray */
+  color: #f9fafb; /* Tailwind's light gray */
 }
-
-body {
-  background-color: #ffffff;
-  color: #1a202c;
-  transition: background-color 0.3s, color 0.3s;
-}
-

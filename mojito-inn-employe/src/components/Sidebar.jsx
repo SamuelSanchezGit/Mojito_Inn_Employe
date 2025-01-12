@@ -1,8 +1,28 @@
 import { useState } from "react";
 import { drinks } from "../data/drinks";
+import { nourriture } from "../data/nourriture";
+import { bestbudzz } from "../data/bestbudzz";
+import { tabac } from "../data/tabac";
 
 const Sidebar = ({ onAdd }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [category, setCategory] = useState("Boissons");
+
+  // Obtenir les produits en fonction de la catégorie
+  const getProducts = () => {
+    switch (category) {
+      case "Boissons":
+        return drinks;
+      case "Nourriture":
+        return nourriture;
+      case "Best Budzz":
+        return bestbudzz;
+      case "Tabac":
+        return tabac;
+      default:
+        return [];
+    }
+  };
 
   return (
     <div className="relative">
@@ -13,9 +33,9 @@ const Sidebar = ({ onAdd }) => {
           isOpen ? "left-[250px]" : "left-0"
         }`}
         style={{
-          clipPath: "polygon(100% 50%, 0 0, 0 100%)", // Crée le triangle
-          width: "50px", // Largeur du triangle
-          height: "50px", // Hauteur du triangle
+          clipPath: "polygon(100% 50%, 0 0, 0 100%)",
+          width: "50px",
+          height: "50px",
         }}
       ></div>
 
@@ -25,24 +45,43 @@ const Sidebar = ({ onAdd }) => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         style={{
-          width: "250px", // Largeur du menu
+          width: "250px",
         }}
       >
         <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-          Boissons
+          Carte
         </h2>
+
+        {/* Navigation des catégories */}
+        <div className="mb-6">
+          {["Boissons", "Nourriture", "Best Budzz", "Tabac"].map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setCategory(cat)}
+              className={`w-full p-2 text-left mb-2 rounded-lg transition ${
+                category === cat
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Liste des produits */}
         <div className="flex flex-col gap-4">
-          {drinks.map((drink) => (
+          {getProducts().map((product) => (
             <div
-              key={drink.id}
-              onClick={() => onAdd(drink)}
+              key={product.id}
+              onClick={() => onAdd(product)}
               className="border p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-xl hover:scale-105 transition"
             >
               <span className="block font-bold text-lg text-gray-900 dark:text-gray-100">
-                {drink.name}
+                {product.name}
               </span>
               <span className="block text-gray-700 dark:text-gray-300">
-                ${drink.price}
+                ${product.price}
               </span>
             </div>
           ))}

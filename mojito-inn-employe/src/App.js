@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaSun, FaMoon } from "react-icons/fa";
 import Menu from "./pages/Menu";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+
+  // Update dark mode class on the `body` element
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   const toggleTheme = () => setDarkMode(!darkMode);
 
