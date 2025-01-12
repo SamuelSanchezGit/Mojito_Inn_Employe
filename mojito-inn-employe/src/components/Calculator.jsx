@@ -68,7 +68,10 @@ const Calculator = ({ cart, onUpdateQuantity, onRemoveItem }) => {
             <span
               className="text-lg font-medium flex-1 truncate text-center cursor-pointer"
               title={item.name} // Ajoute une infobulle native
-              onClick={(e) => showTooltip(e, item.name)} // Tooltip uniquement sur le clic du nom
+              onClick={(e) => {
+                e.stopPropagation(); // Empêche le déclenchement du clic par d'autres événements
+                showTooltip(e, item.name); // Tooltip uniquement sur le clic du nom
+              }}
             >
               {item.name}
             </span>
@@ -80,7 +83,10 @@ const Calculator = ({ cart, onUpdateQuantity, onRemoveItem }) => {
 
             {/* Supprimer */}
             <button
-              onClick={() => onRemoveItem(item.id)}
+              onClick={(e) => {
+                e.stopPropagation(); // Empêche le déclenchement du clic par d'autres événements
+                onRemoveItem(item.id);
+              }}
               className="bg-red-500 text-white px-3 py-2 rounded-full hover:bg-red-600 transition"
             >
               ✖
