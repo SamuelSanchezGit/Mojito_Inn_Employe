@@ -29,71 +29,73 @@ const Calculator = ({ cart, onUpdateQuantity, onRemoveItem }) => {
   };
 
   return (
-    <div className="relative p-4">
+    <div className="relative p-4 h-full">
       {/* Tooltip */}
       {tooltip.visible && (
         <div
           className="absolute bg-gray-800 text-white text-sm px-3 py-1 rounded shadow-lg z-50"
           style={{
-            top: tooltip.y, // Position légèrement en dessous
-            left: tooltip.x, // Position ajustée dynamiquement
-            maxWidth: "150px", // Largeur max
-            wordWrap: "break-word", // Pour éviter les débordements
+            top: tooltip.y,
+            left: tooltip.x,
+            maxWidth: "150px",
+            wordWrap: "break-word",
           }}
         >
           {tooltip.text}
         </div>
       )}
 
-      <ul className="space-y-4">
-        {cart.map((item) => (
-          <li
-            key={item.id}
-            className="flex flex-wrap items-center justify-between gap-4 p-4 border rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
-          >
-            {/* Quantité */}
-            <div className="flex items-center">
-              <input
-                type="number"
-                value={item.quantity}
-                onChange={(e) =>
-                  onUpdateQuantity(item.id, parseInt(e.target.value) || 1)
-                }
-                onKeyPress={(e) => handleKeyPress(e, item.id)}
-                className="w-16 p-2 border rounded text-center text-lg dark:bg-gray-600 dark:text-white focus:ring focus:ring-blue-300"
-              />
-            </div>
-
-            {/* Nom complet */}
-            <span
-              className="text-lg font-medium flex-1 truncate text-center cursor-pointer"
-              title={item.name} // Ajoute une infobulle native
-              onClick={(e) => {
-                e.stopPropagation(); // Empêche le déclenchement du clic par d'autres événements
-                showTooltip(e, item.name); // Tooltip uniquement sur le clic du nom
-              }}
+      <div className="h-full overflow-y-auto">
+        <ul className="space-y-4">
+          {cart.map((item) => (
+            <li
+              key={item.id}
+              className="flex flex-wrap items-center justify-between gap-4 p-4 border rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
             >
-              {item.name}
-            </span>
+              {/* Quantité */}
+              <div className="flex items-center">
+                <input
+                  type="number"
+                  value={item.quantity}
+                  onChange={(e) =>
+                    onUpdateQuantity(item.id, parseInt(e.target.value) || 1)
+                  }
+                  onKeyPress={(e) => handleKeyPress(e, item.id)}
+                  className="w-16 p-2 border rounded text-center text-lg dark:bg-gray-600 dark:text-white focus:ring focus:ring-blue-300"
+                />
+              </div>
 
-            {/* Prix */}
-            <span className="text-lg font-semibold">
-              ${item.quantity * item.price}
-            </span>
+              {/* Nom complet */}
+              <span
+                className="text-lg font-medium flex-1 truncate text-center cursor-pointer"
+                title={item.name}
+                onClick={(e) => {
+                  e.stopPropagation(); // Empêche le déclenchement d'autres clics
+                  showTooltip(e, item.name);
+                }}
+              >
+                {item.name}
+              </span>
 
-            {/* Supprimer */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation(); // Empêche le déclenchement du clic par d'autres événements
-                onRemoveItem(item.id);
-              }}
-              className="bg-red-500 text-white px-3 py-2 rounded-full hover:bg-red-600 transition"
-            >
-              ✖
-            </button>
-          </li>
-        ))}
-      </ul>
+              {/* Prix */}
+              <span className="text-lg font-semibold">
+                ${item.quantity * item.price}
+              </span>
+
+              {/* Supprimer */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation(); // Empêche les autres clics
+                  onRemoveItem(item.id);
+                }}
+                className="bg-red-500 text-white px-3 py-2 rounded-full hover:bg-red-600 transition"
+              >
+                ✖
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
       <hr className="my-4" />
     </div>
   );

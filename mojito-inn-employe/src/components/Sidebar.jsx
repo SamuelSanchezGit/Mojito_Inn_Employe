@@ -13,6 +13,7 @@ const Sidebar = ({ onAdd }) => {
   const [isDiscount, setIsDiscount] = useState(false);
   const [category, setCategory] = useState("drinks");
 
+  // Charger les données en fonction de "isDiscount"
   const data = isDiscount
     ? {
         drinks: drinksDiscount,
@@ -22,8 +23,21 @@ const Sidebar = ({ onAdd }) => {
       }
     : { drinks, nourriture, bestbudzz, tabac };
 
+  // Récupérer les produits de la catégorie active
+  const categoryData = data[category]?.map((item) => ({
+    ...item,
+    uniqueId: `${category}-${item.id}`, // ID unique par catégorie
+  }));
+
+  const handleAdd = (uniqueId) => {
+    const selectedProduct = categoryData.find((item) => item.uniqueId === uniqueId);
+    if (selectedProduct) {
+      onAdd(selectedProduct); // Ajoute uniquement le produit sélectionné
+    }
+  };
+
   return (
-    <div className="relative z-50"> {/* Sidebar toujours au-dessus */}
+    <div className="relative z-50">
       {/* Triangle pour ouvrir/fermer */}
       <div
         onClick={() => setIsOpen(!isOpen)}
@@ -77,10 +91,10 @@ const Sidebar = ({ onAdd }) => {
 
         {/* Produits de la catégorie sélectionnée */}
         <div className="flex flex-col gap-4 mt-4">
-          {data[category]?.map((item) => (
+          {categoryData?.map((item) => (
             <div
-              key={item.id}
-              onClick={() => onAdd(item)}
+              key={item.uniqueId}
+              onClick={() => handleAdd(item.uniqueId)} // Utilise l'ID unique
               className="border p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-xl hover:scale-105 transition"
             >
               <span className="block font-bold text-lg text-gray-900 dark:text-gray-100">
